@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.talkDao">
+	<!-- 增加分享 -->
+	<insert id="talkAdd" parameterType="Talk">
+		insert into talk(use_id,talktime,talkcontent,talkphoto) 
+		values(#{use_id},#{talktime},#{talkcontent},#{talkphoto})
+	</insert>
+	<!-- 增加点赞 -->
+	<insert id="praiseInsert" parameterType="praise">
+		insert into praise(talk_id,use_id,nickName) 
+		values(#{talk_id},#{use_id},#{nickName})
+	</insert>
+	<!-- 增加回复 -->
+	<insert id="replyTalkAdd" parameterType="ReplyTalk">
+		insert into replytalk(talk_id,use_id,replytime,replycontent) 
+		values(#{talk_id},#{use_id},#{replytime},#{replycontent})
+	</insert>
+	<!-- 增加收藏 -->
+	<insert id="talkCollect_add" parameterType="collect">
+		insert into collect(talk_id,use_id,talkcontent,talktime,talkphoto,nickName,avaPath,school,collectUse_id) 
+		values(#{talk_id},#{use_id},#{talkcontent},#{talktime},#{talkphoto},#{nickName},#{avaPath},#{school},#{collectUse_id})
+	</insert>
+	<!-- 删除收藏 -->
+	<delete id="talkCollect_delete" parameterType="collect">
+		delete from collect where collect_id=#{collect_id}
+	</delete>
+	<!-- 删除分享 -->
+	<delete id="talkDelete" parameterType="Talk">
+		delete from talk where talk_id=#{talk_id}
+	</delete>
+	<!-- 查询分享 -->
+	<select id="talkSelect" parameterType="Talk" resultType="Talk">
+		select t.*,u.account,u.school,u.nickName,u.avaPath from Talk t,userInfo u where t.use_id=u.use_id
+	</select>
+	<!-- 查询收藏 -->
+	<select id="talkCollect_find" parameterType="collect" resultType="collect">
+		select t.*,u.account,u.school,u.nickName,u.avaPath from collect t,userInfo u where collectUse_id = #{collectUse_id} and t.use_id=u.use_id
+	</select>
+	<!-- 查询点赞 -->
+	<select id="praiseSelect" resultType="praise">
+		select * from praise 
+	</select>
+	<!-- 查询回复 -->
+	<select id="replySelect" resultType="ReplyTalk">
+		select r.*,u.nickName from replytalk r,userinfo u where r.use_id=u.use_id
+	</select>
+</mapper>

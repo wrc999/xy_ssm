@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.viewDao">
+	<!-- 添加 -->
+	<insert id="add" parameterType="view">
+		insert into view(use_id,photo,school,uploadTime) 
+		values(#{use_id},#{photo},#{school},#{uploadTime})
+	</insert>
+	<!-- 删除 -->
+	<delete id="delete" parameterType="view">
+		delete from view where view_id=#{view_id}
+	</delete>
+	<!-- 查询 -->
+	<select id="get" parameterType="view" resultType="view">
+		select * from view 
+		<where>
+			<if test="school!=null and school!=''">
+				school=#{school}
+			</if>
+		</where>
+	</select>
+
+</mapper>

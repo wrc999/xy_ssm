@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.activityDao">
+	<!-- 添加活动-->
+	<insert id="add" parameterType="activity">
+		insert into activity(use_id,name,starttime,endtime,place,joins,photo,intro) 
+		values(#{use_id},#{name},#{starttime},#{endtime},#{place},#{joins},#{photo},#{intro})
+	</insert>
+	<delete id="delete" parameterType="activity">
+		delete from activity where activity_id=#{activity_id}
+	</delete>
+	<select id="get" parameterType="Integer" resultType="activity">
+		select a.*,u.nickName,u.school from activity a,userinfo u where a.use_id=u.use_id 
+		<!-- 如果传入参数未基本类型，test中参数名必须为_parameter，其他位置随意 -->
+			<if test="_parameter>0">
+				and a.use_id=#{use_id}
+			</if>
+	</select>
+	<insert id="joinsAdd" parameterType="activity">
+		insert into activityjoins(use_id,activity_id) values(#{use_id},#{activity_id})
+	</insert>
+	<insert id="collectAdd" parameterType="acollect">
+		insert into acollect(use_id,acollecttime,activity_id,ause_id,name,starttime,endtime,place,joins,photo,intro,school,nickName) 
+		values(#{use_id},#{acollecttime},#{activity_id},#{ause_id},#{name},#{starttime},#{endtime},#{place},#{joins},#{photo},#{intro},#{school},#{nickName})
+	</insert>
+	<select id="collectGet" parameterType="Integer" resultType="acollect">
+		select * from acollect where use_id=#{use_id}
+	</select>
+
+</mapper>
